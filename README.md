@@ -1,4 +1,4 @@
-## audio-peek
+## audio-peek 🎼 🎹 🎻 🔉
 
 ### AUDIO PEEK (audiopeek.py)
 
