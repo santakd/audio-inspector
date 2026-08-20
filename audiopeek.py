@@ -22,6 +22,43 @@ Supported Formats:
 Logging:
   Automatically logs executions and diagnostics to:
   ./logs/audiopeek_DDMMMYYYY.log (rolling over each day).
+
+Production Features Included
+
+    Daily Rotating Log Files: Generates logs in 
+    logs/audiopeek_DDMMMYYYY.log (e.g., logs/audiopeek_24May2024.log) 
+    where a new log file is automatically created as the date advances.
+
+    Exhaustive Error Traps:
+
+        Missing or unreadable files (FileNotFoundError, PermissionError).
+
+        Zero-byte / empty files.
+
+        Files with swapped/invalid extensions (e.g., .txt renamed to .mp3).
+
+        Corrupted bitstreams and headers (HeaderNotFoundError, MutagenError).
+
+        Clean SIGINT (Ctrl+C) handling (Exit code 130).
+
+    Format-Specific Deep Extraction:
+
+        FLAC: Sample rate, true bit depth (16/24/32-bit), block/frame limits,
+        MD5 stream validation, embedded pictures, seekpoints.
+
+        MP3: MPEG audio layer (I/II/III), MPEG version (1/2/2.5), 
+        CBR vs. VBR detection, channel mode, LAME encoder header info, 
+        ID3v2.x metadata.
+
+        WAV: RIFF structure, bit depth, sampling rates, channel configurations,
+        LIST tags.
+
+    Data Integrity: Automatically computes and provides the SHA-256 hash of the
+    inspected file.
+
+Usage:
+    $ python3 audiopeek.py <audio_file> [--json]
+
 ================================================================================
 """
 
@@ -589,6 +626,9 @@ def resolve_inspector(path: Path) -> Optional[BaseAudioInspector]:
     
     return None
 
+# ============================================================================
+# INSPECTION ENTRYPOINT
+# ============================================================================
 
 def inspect_file(file_path_str: str) -> Optional[Dict[str, Any]]:
     """
@@ -657,7 +697,7 @@ def build_parser() -> argparse.ArgumentParser:
     """Configures the command line interface arguments."""
     parser = argparse.ArgumentParser(
         prog="audiopeek",
-        description="Production CLI audio inspection tool for audio specifications, codecs, and tags.",
+        description="Production CLI audio inspection peek tool for audio specifications, codecs, and tags.",
         epilog="Daily logs are recorded to: ./logs/audiopeek_DDMMMYYYY.log",
     )
     parser.add_argument(
@@ -671,6 +711,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     return parser
 
+# ============================================================================
+# MAIN APPLICATION LIFECYCLE
+# ============================================================================
 
 def main() -> int:
     """Main application lifecycle controller."""
