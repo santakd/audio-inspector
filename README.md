@@ -1,6 +1,6 @@
-## audio-inspector
+## audio-peek
 
-### AUDIO INSPECTOR (inspector.py)
+### AUDIO PEEK (audiopeek.py)
 
 A production-grade Command Line Interface (CLI) application designed to extract 
 deep technical specifications, container headers, and metadata across a broad
@@ -20,7 +20,7 @@ spectrum of industry-standard audio formats.
 
 ### Logging:
   Automatically logs executions and diagnostics to:
-  ./logs/inspector_DDMMMYYYY.log (rolling over each day).
+  ./logs/audiopeek_DDMMMYYYY.log (rolling over each day).
  
 ### Sample Reports
 
